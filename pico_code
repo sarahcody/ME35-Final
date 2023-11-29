@@ -1,1 +1,103 @@
+from machine import Pin, ADC
+import time
+import network
+import ubinascii
+import mqtt
+import urequests as requests
+from stepper import Stepper
+from servo import Servo
+
+# initialize servos 
+base_servo = Servo(12, 500, 2500, 0.0, 180, 50)
+elbow_servo = Servo(13, 500, 2500, 0.0, 180.0, 50)
+
+# initialize suction pins
+suction = Pin(16, Pin.OUT)
+
+
+wifi = {"ssid":"Tufts_Wireless","pass":""}
+def connect_wifi(wifi):
+    station = network.WLAN(network.STA_IF)
+    station.active(True)
+    mac = ubinascii.hexlify(network.WLAN().config('mac'),':').decode()
+    print("MAC " + mac)
+
+    station.connect(wifi['ssid'],wifi['pass'])
+    while not station.isconnected():
+        time.sleep(1)
+    print('Connection successful')
+    print(station.ifconfig())
+ 
+# def move_stepper(message):
+    
+
+def move_servo(angles):
+    angle1, angle2 = angles
+    angle1 = int(angle1)
+    angle2 = int(angle2)
+    
+    if 135.0 >= angle1 >= 50.0:
+        base_servo.write(angle1)
+    elif angle > 135.0:
+        base_servo.write(135)
+    elif angle < 50.0:
+        base_servo.write(50.0)
+    else:
+        pass
+
+    if 135.0 >= angle2 >= 50.0:
+        elbow_servo.write(angle2)
+    elif angle > 135.0:
+        elbow_servo.write(135)
+    elif angle < 50.0:
+        elbow_servo.write(50.0)
+    else:
+        pass
+
+def control_suction(message):
+    if message == "on":
+        suction.value(1)
+    elif message == "off":
+        suction.value(0)
+    else:
+        print("the vacuum is confused :(")
+ 
+def whenCalled(topic, msg):
+    top = topic.decode()
+    msg = msg.decode()
+    if top == "stepper":
+        move_stepper(msg)
+    elif top == "servo":
+        move_servo(msg)
+    elif top == "suction":
+        control_suction(msg)
+    else:
+        print("i can't read this message :(")
+
+def main():
+    try:
+        connect_wifi(wifi)
+        fred = mqtt.MQTTClient('SarahElijah', 'broker.hivemq.com', keepalive=100)
+        print('Connected')
+        fred.connect()
+        fred.set_callback(whenCalled)
+    except OSError as e:
+        print('Failed')
+        return
+    fred.subscribe('servo')
+    fred.subscribe('stepper')
+    fred.subscribe('suction')
+    try:
+        while True:
+            fred.check_msg() 
+            time.sleep(.1)
+    except Exception as e:
+        print(e)
+    finally:
+        fred.disconnect()
+        print('done')
+
+
+main()
+
 
