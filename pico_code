@@ -2,10 +2,11 @@ from machine import Pin, ADC
 import time
 import network
 import ubinascii
-from umqtt import mqtt
+import umqtt as mqtt
 import urequests as requests
 from stepper import Stepper
 from servo import Servo
+from mysecrets import *
 
 # initialize servos 
 base_servo = Servo(12, 500, 2500, 0.0, 180, 50)
@@ -30,7 +31,7 @@ slider = Stepper(step_pin,dir_pin,steps_per_rev=200,speed_sps=200) # in our syst
 
 slider.overwrite_pos(0) # sets whatever position is curent as 0
 
-wifi = {"ssid":"Tufts_Wireless","pass":""}
+wifi = Tufts_Wireless
 def connect_wifi(wifi):
     station = network.WLAN(network.STA_IF)
     station.active(True)
@@ -95,7 +96,7 @@ def whenCalled(topic, msg):
 def main():
     try:
         connect_wifi(wifi)
-        fred = mqtt.MQTTClient('SarahElijah', 'broker.hivemq.com', keepalive=100)
+        fred = mqtt.MQTTClient('SarahElijah', MyBroker['ip'], keepalive=100)
         print('Connected')
         fred.connect()
         fred.set_callback(whenCalled)
