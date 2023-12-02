@@ -14,6 +14,21 @@ elbow_servo = Servo(13, 500, 2500, 0.0, 180.0, 50)
 # initialize suction pins
 suction = Pin(16, Pin.OUT)
 
+# initialize stepper
+step_pin = 17
+dir_pin = 18
+
+ms1 = Pin(19, Pin.OUT, Pin.PULL_DOWN) # different combos of ms1,ms2 states gives microstep sizes. Low Low is 1 step
+ms2 = Pin(20, Pin.OUT, Pin.PULL_DOWN)
+enable = Pin(21, Pin.OUT, Pin.PULL_DOWN) # when enable is on, stepper is disengaged. Use to keep stepper from overheating from staying on
+
+enable.on() 
+ms1.off()
+ms2.off()
+
+slider = Stepper(step_pin,dir_pin,steps_per_rev=200,speed_sps=200) # in our system, 200 steps = 4 cm irl motion
+
+slider.overwrite_pos(0) # sets whatever position is curent as 0
 
 wifi = {"ssid":"Tufts_Wireless","pass":""}
 def connect_wifi(wifi):
@@ -28,8 +43,12 @@ def connect_wifi(wifi):
     print('Connection successful')
     print(station.ifconfig())
  
-# def move_stepper(message):
-    
+def move_stepper(message):
+    message = int(message)
+    enable.off()
+    slider.target(message) # move sent number of steps
+    slider.stop()
+    enable.on()
 
 def move_servo(angles):
     angle1, angle2 = angles
