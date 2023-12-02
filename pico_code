@@ -82,6 +82,7 @@ def control_suction(message):
 def whenCalled(topic, msg):
     top = topic.decode()
     msg = msg.decode()
+    print(top, msg)
     if top == "stepper":
         move_stepper(msg)
     elif top == "servo":
