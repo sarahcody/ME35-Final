@@ -2,7 +2,7 @@ from machine import Pin, ADC
 import time
 import network
 import ubinascii
-import mqtt
+from umqtt import mqtt
 import urequests as requests
 from stepper import Stepper
 from servo import Servo
@@ -57,7 +57,7 @@ def move_servo(angles):
     
     if 135.0 >= angle1 >= 50.0:
         base_servo.write(angle1)
-    elif angle > 135.0:
+    elif angle1 > 135.0:
         base_servo.write(135)
     elif angle < 50.0:
         base_servo.write(50.0)
@@ -70,8 +70,6 @@ def move_servo(angles):
         elbow_servo.write(135)
     elif angle < 50.0:
         elbow_servo.write(50.0)
-    else:
-        pass
 
 def control_suction(message):
     if message == "on":
