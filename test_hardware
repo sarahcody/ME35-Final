@@ -1,0 +1,69 @@
+from machine import Pin, ADC
+import time
+from stepper import Stepper
+from servo import Servo
+
+# Initialize servos
+base_servo = Servo(13, 500, 2500, 0.0, 180, 50)
+elbow_servo = Servo(12, 500, 2500, 0.0, 180.0, 50)
+
+# Initialize suction pins
+suction = Pin(16, Pin.OUT)
+
+# Initialize stepper
+step_pin = 17
+dir_pin = 18
+
+ms1 = Pin(19, Pin.OUT, Pin.PULL_DOWN)  # different combos of ms1, ms2 states give microstep sizes. Low Low is 1 step
+ms2 = Pin(20, Pin.OUT, Pin.PULL_DOWN)
+enable = Pin(21, Pin.OUT, Pin.PULL_DOWN)  # when enable is on, stepper is disengaged. Use to keep stepper from overheating from staying on
+
+enable.on()
+ms1.off()
+ms2.off()
+
+slider = Stepper(step_pin, dir_pin, steps_per_rev=200, speed_sps=200)  # in our system, 200 steps = 4 cm irl motion
+
+slider.overwrite_pos(0) # sets whatever position is curent as 0
+
+def test_servos():
+    print("Testing Servos")
+    base_servo.write(110)
+    time.sleep(3)
+    elbow_servo.write(70)
+    time.sleep(3)
+    base_servo.write(90)
+    time.sleep(3)
+    elbow_servo.write(90)
+    time.sleep(3)
+
+    print("Servos Test Complete\n")
+
+def test_suction():
+    print("Testing Suction")
+    suction.value(1)
+    time.sleep(3)
+    suction.value(0)
+    time.sleep(1)
+    print("Suction Test Complete\n")
+
+def test_stepper():
+    print("Testing Stepper")
+    enable.off()
+    slider.target(400)
+    time.sleep(3)
+    slider.target(0)  
+    time.sleep(3)
+    enable.on()
+    print("Stepper Test Complete\n")
+
+def main():
+    test_servos()
+    time.sleep(1)
+    test_suction()
+    time.sleep(1)
+    test_stepper()
+    time.sleep(1)
+
+if __name__ == "__main__":
+    main()
