@@ -29,7 +29,12 @@ ms2.off()
 
 slider = Stepper(step_pin,dir_pin,steps_per_rev=200,speed_sps=200) # in our system, 200 steps = 4 cm irl motion
 
-slider.overwrite_pos(0) # sets whatever position is curent as 0
+def setup():
+    slider.overwrite_pos(0) # sets whatever position is curent as 0
+    suction.value(0)    
+    base_servo.write(90)
+    elbow_servo.write(90)
+    
 
 wifi = Tufts_Wireless
 def connect_wifi(wifi):
@@ -51,26 +56,30 @@ def move_stepper(message):
     slider.stop()
     enable.on()
 
-def move_servo(angles):
-    angle1, angle2 = angles
-    angle1 = int(angle1)
-    angle2 = int(angle2)
-    
-    if 135.0 >= angle1 >= 50.0:
-        base_servo.write(angle1)
-    elif angle1 > 135.0:
+def move_base(angle):
+#     angle = int(angle)
+
+    if 135.0 >= angle >= 50.0:
+        base_servo.write(angle)
+    elif angle > 135.0:
         base_servo.write(135)
     elif angle < 50.0:
         base_servo.write(50.0)
     else:
         pass
 
-    if 135.0 >= angle2 >= 50.0:
-        elbow_servo.write(angle2)
+def move_elbow(angle):
+#     angle = int(angle)
+
+    if 135.0 >= angle >= 50.0:
+        elbow_servo.write(angle)
     elif angle > 135.0:
         elbow_servo.write(135)
     elif angle < 50.0:
         elbow_servo.write(50.0)
+    else:
+        pass
+
 
 def control_suction(message):
     if message == "on":
@@ -86,8 +95,10 @@ def whenCalled(topic, msg):
     print(top, msg)
     if top == "stepper":
         move_stepper(msg)
-    elif top == "servo":
-        move_servo(msg)
+    elif top == "base":
+        move_base(msg)
+    elif top == "elbow":
+        move_elbow(msg)
     elif top == "suction":
         control_suction(msg)
     else:
@@ -117,6 +128,5 @@ def main():
         print('done')
 
 
+setup()
 main()
-
-
