@@ -58,10 +58,10 @@ def test_stepper():
     print("Stepper Test Complete\n")
 
 def main():
-    test_servos()
-    time.sleep(1)
-    test_suction()
-    time.sleep(1)
+    #test_servos()
+    #time.sleep(1)
+    #test_suction()
+    #time.sleep(1)
     test_stepper()
     time.sleep(1)
 
