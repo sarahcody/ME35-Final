@@ -4,6 +4,18 @@
 
 This GitHub repository hosts a comprehensive robotic arm control system that utilizes image processing techniques for object detection and localization. The system is designed to control a two-link robotic arm, interfacing with various hardware components such as servos, a stepper motor, and a suction device. The integration of computer vision allows the arm to interact with and manipulate objects based on real-time camera input.
 
+## Other Folders
+
+There are 2 other folders contained within this GitHub repository called "development_programs" and "setup_programs." Here is a short explanation of both: 
+
+### 1. Development Programs
+
+This folder contains 3 files (ikrangetesting.py, servo_stepper_init.py, surgical_robot_hardcode.py). These were used in the beginning of our process to determine the robots limits, initlialize the stepper, and make sure it could hit hardcoded points using inverse kinematics. 
+
+### 2. Setup Programs
+
+This folder contains 2 filels (cv_calibration.py, test_hardware.py). These were used before running the main code in order to make sure the camera was identifying the correct objects and that all motors and suction were properly plugged in. Use for debugging. 
+
 ## Features
 
 ### 1. Inverse Kinematics (File: `inverse_kinematics.py`)
