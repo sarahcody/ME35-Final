@@ -1,3 +1,4 @@
+# Import necessary libraries and modules
 from machine import Pin, ADC
 import time
 import network
@@ -8,43 +9,45 @@ from stepper import Stepper
 from servo import Servo
 from mysecrets import *
 
-# initialize servos
+# Initialize servos
 base_servo = Servo(12, 500, 2500, 0.0, 180, 50)
 elbow_servo = Servo(13, 500, 2500, 0.0, 180.0, 50)
 
-# initialize suction pins
+# Initialize suction pins
 suction = Pin(16, Pin.OUT)
 
-# initialize stepper
+# Initialize stepper
 step_pin = 17
 dir_pin = 18
 
-ms1 = Pin(19, Pin.OUT, Pin.PULL_DOWN) # different combos of ms1,ms2 states gives microstep sizes. Low Low is 1 step
+ms1 = Pin(19, Pin.OUT, Pin.PULL_DOWN)  # different combos of ms1, ms2 states give microstep sizes. Low Low is 1 step
 ms2 = Pin(20, Pin.OUT, Pin.PULL_DOWN)
-enable = Pin(21, Pin.OUT, Pin.PULL_DOWN) # when enable is on, stepper is disengaged. Use to keep stepper from overheating from staying on
+enable = Pin(21, Pin.OUT, Pin.PULL_DOWN)  # when enable is on, stepper is disengaged. Use to keep stepper from overheating from staying on
 
 enable.on()
 ms1.off()
 ms2.off()
 
-slider = Stepper(step_pin,dir_pin,steps_per_rev=200,speed_sps=200) # in our system, 200 steps = 4 cm irl motion
+slider = Stepper(step_pin, dir_pin, steps_per_rev=200, speed_sps=200)  # in our system, 200 steps = 4 cm irl motion
 
 def setup():
-    slider.overwrite_pos(0) # sets whatever position is curent as 0
+    slider.overwrite_pos(0)  # sets whatever position is current as 0
     suction.value(0)
-    base_servo.write(90)
-    elbow_servo.write(90)
+    base_servo.write(100)
+    elbow_servo.write(97)
     print('setup complete')
 
+# Tufts_Wireless seems to be a variable, assuming it should be a dictionary
+wifi = {'ssid': 'your_wifi_ssid', 'pass': 'your_wifi_password'}
 
-wifi = Tufts_Wireless
 def connect_wifi(wifi):
+    # Connect to Wi-Fi
     station = network.WLAN(network.STA_IF)
     station.active(True)
-    mac = ubinascii.hexlify(network.WLAN().config('mac'),':').decode()
+    mac = ubinascii.hexlify(network.WLAN().config('mac'), ':').decode()
     print("MAC " + mac)
 
-    station.connect(wifi['ssid'],wifi['pass'])
+    station.connect(wifi['ssid'], wifi['pass'])
     while not station.isconnected():
         time.sleep(1)
     print('Connection successful')
@@ -72,7 +75,6 @@ def move_stepper(message):
         print(f"Error processing message: {e}")
     finally:
         enable.on()
-
 
 def move_base(angle):
     angle = float(angle)
@@ -105,7 +107,7 @@ def whenCalled(topic, msg):
     elif top == "suction":
         control_suction(msg)
     else:
-        print("i can't read this message :(")
+        print("I can't read this message :(")
 
 def main():
     try:
@@ -132,9 +134,8 @@ def main():
         fred.disconnect()
         print('done')
 
-
+# Call the setup function to initialize components
 setup()
+
+# Call the main function to run the main loop
 main()
-
-
-
