@@ -1,9 +1,6 @@
-```markdown
 # Autonomous Operation Robot - ME-35 Final Project
 
-## Overview
-
-This repository contains the code for an autonomous operation robot developed as part of the ME-35 (Introduction to Mechatronics) final project. The project involves computer vision, robotics, and control systems to enable the robot to identify game pieces' coordinates and autonomously move to specific locations on a board.
+This repository contains the code for an autonomous operation robot developed as part of the ME-35 (Introduction to Robotics) final project. Inspired by the groundbreaking daVinci surgical robot which took the internet by storm in 2017 when “they did surgery on a grape” in a promotional video, the goal of this project was to combine everything we have learned this semester to create a robot that can autonomously retrieve a game piece from the board game Operation. 
 
 ### Primary Programs
 
