@@ -6,9 +6,9 @@ This repository contains the code for an autonomous operation robot developed as
 Check out a video of the project [here](https://youtu.be/dTK5n1j3qqo).
 
 ## Folders
-The Folders **development_programs** and **setup_programs** contain additional Python programs developed for this project. 
-**development_programs** includes a version of the main code without inverse kinematics but instead with a hardcoded end position, used during testing, as well as a script with examples of how to use the third party stepper and servo libraries listed below. 
-**setup_programs** contains programs used to test the electronic hardware and computer vision calibration before running the main program.
+The Folders `development_programs` and `setup_programs`contain additional Python programs developed for this project. 
+`development_programs` includes a version of the main code without inverse kinematics but instead with a hardcoded end position, used during testing, as well as a script with examples of how to use the third party stepper and servo libraries listed below. 
+`setup_programs` contains the two programs used to test the electronic hardware and computer vision calibration before running the main program.
 
 ## mysimpleik.py
 
