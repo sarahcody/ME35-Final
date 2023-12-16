@@ -1,5 +1,5 @@
 # Autonomous Operation Robot - ME-35 Final Project
-This Project was made by Sarah Cody and Elijah Sarvey.
+This project was made by Sarah Cody and Elijah Sarvey with guidence from Dr. Chris Rogers and motivation from the rest of the class.
 
 This repository contains the code for an autonomous operation robot developed as part of the ME-35 (Introduction to Robotics) final project. Inspired by the groundbreaking daVinci surgical robot which took the internet by storm in 2017 when “they did surgery on a grape” in a promotional video, the goal of this project was to combine everything we have learned this semester to create a robot that can autonomously retrieve a game piece from the board game Operation.
 
