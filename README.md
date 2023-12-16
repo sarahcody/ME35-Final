@@ -1,8 +1,8 @@
-# Robotic Arm Control with Image Processing
+# ME-35 Final Project: Autonomous Operation Robot
 
 ## Introduction
 
-This GitHub repository hosts a comprehensive robotic arm control system that utilizes image processing techniques for object detection and localization. The system is designed to control a two-link robotic arm, interfacing with various hardware components such as servos, a stepper motor, and a suction device. The integration of computer vision allows the arm to interact with and manipulate objects based on real-time camera input.
+
 
 ## Other Folders
 
