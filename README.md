@@ -64,4 +64,3 @@ MicroPython script designed for the Raspberry Pi Pico microcontroller. It acts a
 - `umqtt` (MicroPython MQTT module)
 - `stepper` ([micropython-stepper](https://pypi.org/project/micropython-stepper/) module)
 - `servo` ([micropython-servo](https://pypi.org/project/micropython-servo/) module)
-- `mysecrets` (Custom module for storing Wi-Fi and MQTT broker information)
